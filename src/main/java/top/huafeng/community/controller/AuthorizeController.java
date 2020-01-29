@@ -9,6 +9,7 @@ import top.huafeng.community.dto.AccessTokenDTO;
 import top.huafeng.community.dto.GithubUser;
 import top.huafeng.community.provider.GithubProvider;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @Controller
@@ -25,7 +26,8 @@ public class AuthorizeController {
 
     @GetMapping("callback")
     public String callBack(@RequestParam(name = "code") String code,
-                           @RequestParam(name = "state") String state) throws IOException {
+                           @RequestParam(name = "state") String state,
+                           HttpServletRequest request) throws IOException {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -34,7 +36,14 @@ public class AuthorizeController {
         accessTokenDTO.setState(state);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        System.out.println("AuthorizeController:"+githubUser.getName());
-        return "index";
+
+        if (githubUser != null) {
+            //登录成功，写cookie和session
+            request.getSession().setAttribute("githubUser",githubUser);
+            return "redirect:/";
+        } else {
+            //登录失败，重新登录
+            return "redirect:/";
+        }
     }
 }

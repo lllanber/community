@@ -5,6 +5,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class GithubUser {
     @Getter
     @Setter
@@ -17,4 +18,5 @@ public class GithubUser {
     @Getter
     @Setter
     String bio;
+
 }
