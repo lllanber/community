@@ -32,6 +32,9 @@
             </form>
 
             <ul class="nav navbar-nav navbar-right">
+                <li th:if="${session.githubUser!=null}">
+                    <a href="/publish">发布</a>
+                </li>
                 <li th:if="${session.githubUser==null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.3fee50a30242372b&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
                 <li class="dropdown" th:if="${session.githubUser!=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.githubUser.name}">我的<span class="caret"></span></a>
@@ -51,19 +54,20 @@
         <div class="col-lg-9 col-md-12 col-xs-12 col-sm-12" >
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
-            <form action="">
+            <form action="publish" method="post">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）</label>
-                    <input type="email" class="form-control" name="title" id="title" placeholder="问题标题...">
+                    <input type="text" class="form-control" name="title" id="title" placeholder="问题标题..." th:value="${title}">
                 </div>
                 <div class="form-group">
                     <label for="title">问题补充（必填，请参照右侧提示）</label>
-                    <textarea class="form-control" name="discription" id="discription" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" name="description" id="discription" cols="30" rows="10"  th:text="${description}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="title">问题标签</label>
-                    <input type="email" class="form-control" name="tag" id="tag" placeholder="输入标签，以 , 分隔">
+                    <input type="text" class="form-control" name="tag" id="tag" placeholder="输入标签，以 , 分隔"  th:value="${tag}" >
                 </div>
+                <span class="alert alert-danger" role="alert" th:if="${error!=null}" th:text="${error}"></div>
                 <button type="submit" class="btn btn-success">发布</button>
             </form>
         </div>
