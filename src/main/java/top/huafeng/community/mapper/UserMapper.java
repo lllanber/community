@@ -8,7 +8,7 @@ import top.huafeng.community.model.User;
 @Mapper
 @Component
 public interface UserMapper {
-    @Insert("INSERT INTO user (name, account_id, token, gmt_create, gmt_modified) " +
-            "VALUES (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified})")
+    @Insert("INSERT INTO user (name, account_id, token, gmt_create, gmt_modified, avatar_url) " +
+            "VALUES (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified}, #{avatarUrl})")
     void insert(User user);
 }

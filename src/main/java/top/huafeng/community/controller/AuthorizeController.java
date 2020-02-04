@@ -36,12 +36,13 @@ public class AuthorizeController {
     public String callBack(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request) throws IOException {
-        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
-        accessTokenDTO.setClient_id(clientId);
-        accessTokenDTO.setClient_secret(clientSecret);
-        accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_uri(redirectUri);
-        accessTokenDTO.setState(state);
+        AccessTokenDTO accessTokenDTO = AccessTokenDTO.builder()
+                .client_id(clientId)
+                .client_secret(clientSecret)
+                .code(code)
+                .redirect_uri(redirectUri)
+                .state(state)
+                .build();
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
 
@@ -53,6 +54,7 @@ public class AuthorizeController {
                     .accountId(String.valueOf(githubUser.getId()))
                     .gmtCreate(System.currentTimeMillis())
                     .gmtModified(System.currentTimeMillis())
+                    .avatarUrl(githubUser.getAvatar_url())
                     .build();
             System.out.println("AutorizeController 57: user = " + user);
             userMapper.insert(user);

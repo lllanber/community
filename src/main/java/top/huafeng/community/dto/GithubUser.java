@@ -5,18 +5,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Data
 public class GithubUser {
-    @Getter
-    @Setter
-    String name;
-
-    @Getter
-    @Setter
-    long id;
-
-    @Getter
-    @Setter
-    String bio;
-
+    private String name;
+    private Long id;
+    private String bio;
+    private String avatar_url;
 }
