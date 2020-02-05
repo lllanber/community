@@ -1,10 +1,14 @@
 package top.huafeng.community.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Question {
 
   private Integer id;
@@ -17,5 +21,4 @@ public class Question {
   private Integer viewCount;
   private Integer likeCount;
   private String tag;
-  private String avatarUrl;
 }

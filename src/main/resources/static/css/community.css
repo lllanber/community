@@ -3,9 +3,14 @@
     background: white;
 }
 .body{
-    background: #f8efc0;
+    background: #ffb86b;
 }
 .btn{
     float: right;
     margin-bottom: 20px;
+}
+.text-des{
+	font-size: 12px;
+	    font-weight: normal;
+	    color: #999;
 }

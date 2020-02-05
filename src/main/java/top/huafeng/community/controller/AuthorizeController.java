@@ -47,7 +47,7 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getUser(accessToken);
 
         if (githubUser != null) {
-            //GitHub登录成功，拿到用户信息，插入数据库
+            //GitHub登录成功，查询到的用户信息存到githubUser中， 把有用的信息存到user中
             User user = User.builder()
                     .token(UUID.randomUUID().toString())
                     .name(githubUser.getName())
@@ -56,8 +56,13 @@ public class AuthorizeController {
                     .gmtModified(System.currentTimeMillis())
                     .avatarUrl(githubUser.getAvatar_url())
                     .build();
-            System.out.println("AutorizeController 57: user = " + user);
-            userMapper.insert(user);
+//            System.out.println("AutorizeController 57: user = " + user);
+
+            //数据库中没有该用户的信息，就插入新的用户信息
+            User temp = userMapper.findByAccountId(user.getAccountId());
+            if(temp == null){
+                userMapper.insert(user);
+            }
 
             //登录成功，写cookie和session
             request.getSession().setAttribute("githubUser",githubUser);

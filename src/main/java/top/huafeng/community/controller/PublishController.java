@@ -60,6 +60,8 @@ public class PublishController {
                 .title(title)
                 .description(description)
                 .tag(tag)
+                .gmtCreate(System.currentTimeMillis())
+                .gmtModified(System.currentTimeMillis())
                 .build();
         questionMapper.create(question);
         return "redirect:/";

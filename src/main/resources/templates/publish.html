@@ -19,7 +19,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">码匠社区</a>
+            <a class="navbar-brand" href="/index">码匠社区</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -52,8 +52,8 @@
 <div class="container-fluid main">
     <div class="row">
         <div class="col-lg-9 col-md-12 col-xs-12 col-sm-12" >
-            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
-            <hr>
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2><hr>
+
             <form action="publish" method="post">
                 <div class="form-group">
                     <label for="title">问题标题（简单扼要）</label>
@@ -67,8 +67,22 @@
                     <label for="title">问题标签</label>
                     <input type="text" class="form-control" name="tag" id="tag" placeholder="输入标签，以 , 分隔"  th:value="${tag}" >
                 </div>
-                <span class="alert alert-danger" role="alert" th:if="${error!=null}" th:text="${error}"></div>
-                <button type="submit" class="btn btn-success">发布</button>
+
+                <div class="container-fluid main ">
+                    <div class="row">
+                        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+                            <div class="alert alert-danger col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                                 th:text="${error}"
+                                 th:if="${error != null}">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                            <button type="submit" class="btn btn-success btn-publish ">
+                                发布
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
 
