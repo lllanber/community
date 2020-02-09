@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import top.huafeng.community.mapper.QuestionMapper;
-import top.huafeng.community.mapper.UserMapper;
 import top.huafeng.community.model.Question;
+import top.huafeng.community.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @GetMapping("/publish")
     public String publish(){
@@ -50,7 +47,8 @@ public class PublishController {
             return "publish";
         }
 
-        if (request.getSession(false) == null) {
+        User user = (User)request.getSession().getAttribute("user");
+        if (user == null) {
             //无session，未登录
             model.addAttribute("error", "用户未登录");
             return "publish";

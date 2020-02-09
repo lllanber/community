@@ -1,9 +1,6 @@
 package top.huafeng.community.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 import top.huafeng.community.model.User;
 
@@ -23,5 +20,6 @@ public interface UserMapper {
     @Select("select * from USER where id = #{id}")
     User findById(@Param("id") Integer creator);
 
-
+    @Update("update USER set NAME = #{name}, TOKEN = #{token}, GMT_MODIFIED = #{gmtModified}, AVATAR_URL = #{avatarUrl}")
+    void updateInfo(User user);
 }

@@ -3,6 +3,7 @@ package top.huafeng.community.service;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import top.huafeng.community.dto.PaginationDTO;
 import top.huafeng.community.dto.QuestionDTO;
 import top.huafeng.community.mapper.QuestionMapper;
 import top.huafeng.community.mapper.UserMapper;
@@ -20,10 +21,18 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<QuestionDTO> list(){
-        List<Question> questions = questionMapper.list();
-//        System.out.println("QuestionService25: questions = " + questions);
+    public PaginationDTO list(Integer page, Integer size){
+
+        //计算分页偏移量
+        Integer offset = (page-1) * size;
+
+        //查出问题列表
+        List<Question> questions = questionMapper.list(offset, size);
+        //问题信息+创建者信息
         List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+        //问题信息+创建者信息+分页信息
+        PaginationDTO paginationDTO = new PaginationDTO();
         for (Question question : questions){
             User user = userMapper.findById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -31,7 +40,9 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-//        System.out.println("QuestionService34: questionDTOList = " + questionDTOList);
-        return questionDTOList;
+        paginationDTO.setQuestions(questionDTOList);
+        Integer totalCount = questionMapper.count();
+        paginationDTO.setPagination(totalCount, page, size);
+        return paginationDTO;
     }
 }

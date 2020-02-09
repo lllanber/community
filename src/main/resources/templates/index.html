@@ -33,12 +33,12 @@
             </form>
 
             <ul class="nav navbar-nav navbar-right">
-                <li th:if="${session.githubUser!=null}">
+                <li th:if="${session.user!=null}">
                     <a href="/publish">发布</a>
                 </li>
-                <li th:if="${session.githubUser==null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.3fee50a30242372b&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
-                <li class="dropdown" th:if="${session.githubUser!=null}">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.githubUser.name}">我的<span class="caret"></span></a>
+                <li th:if="${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=Iv1.3fee50a30242372b&redirect_uri=http://localhost:8080/callback&scope=user&state=1">登录</a></li>
+                <li class="dropdown" th:if="${session.user !=null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.name}">我的<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#">消息中心</a></li>
                         <li><a href="#">个人资料</a></li>
@@ -57,7 +57,7 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发现</h2>
             <hr>
 
-            <div class="media" th:each="question : ${questionList}">
+            <div class="media" th:each="question : ${pagination.questions}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-circle" width="50px"
@@ -71,10 +71,38 @@
                     <span class="text-des">
                         <span th:text="${question.commentCount}"></span>个回复•
                         <span th:text="${question.viewCount}"></span> 次浏览 • 发布于
-                        <span th:text="${#dates.format(question.gmtCreate, 'yyyy MMMM dd')} " ></span>
+                        <span th:text="${#dates.format(question.gmtCreate, 'yyyy-MM-dd HH:mm')} " ></span>
                     </span>
                 </div>
             </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li th:if="${pagination.showFirstPage}">
+                        <a href="/?page=1" aria-label="Previous">
+                            <span aria-hidden="true">首页</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.showPrevious}">
+                        <a th:href="@{/(${pagination.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="page : ${pagination.pages}" th:class="${pagination.page == page}? 'active' : ''">
+                        <a th:href="@{/(page=${page})}" th:text="${page}" >1</a>
+                    </li>
+                    <li th:if="${pagination.showNext}">
+                        <a th:href="@{/(${pagination.page + 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pagination.showEndPage}">
+                        <a th:href="@{/(${pagination.totalPage})}" aria-label="Next">
+                            <span aria-hidden="true">尾页</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
         </div>
 
